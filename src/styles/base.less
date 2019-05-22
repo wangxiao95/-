@@ -1,0 +1,69 @@
+@import "reset.less";
+@import "util.less";
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.operation-box {
+  width: 30%;
+  height: 65%;
+  border: 1px solid;
+  .title {
+    height: 40px;
+    width: 100%;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0 10px;
+    background: linear-gradient(#052357, #3262A0);
+    span {
+      display: inline-block;
+      height: 40px;
+      line-height: 40px;
+    }
+    .add, .min {
+      width: 40px;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-left: 20px;
+    }
+  }
+  .row-item{
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    padding: 0 10px;
+  }
+}
+
+.chart-box {
+  width: 70%;
+  height: 65%;
+  border: 1px solid;
+  #myChart{
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.fault-info {
+  width: 50%;
+  height: 35%;
+  border: 1px solid;
+}
+
+.analysis {
+  width: 50%;
+  height: 35%;
+  border: 1px solid;
+}
+body .ant-radio-wrapper{
+  white-space: normal;
+}

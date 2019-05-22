@@ -1,0 +1,63 @@
+/* vertical-align */
+.vm {
+  vertical-align: middle;
+}
+.vtb {
+  vertical-align: text-bottom;
+}
+.vb {
+  vertical-align: bottom;
+}
+.vt {
+  vertical-align: top;
+}
+/* float */
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+/* position */
+.rel {
+  position: relative;
+}
+.abs {
+  position: absolute;
+}
+/* cursor */
+.poi {
+  cursor: pointer;
+}
+.def {
+  cursor: default;
+}
+/* overflow */
+.ovh {
+  overflow: hidden;
+}
+.ova {
+  overflow: auto;
+}
+/* visibility */
+.vh {
+  visibility: hidden;
+}
+.vv {
+  visibility: visible;
+}
+/* ------------------- multiply CSS ------------------ */
+/* 清除浮动*/
+.fix {
+  *zoom: 1;
+}
+.fix:after {
+  clear: both;
+  content: ' ';
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
