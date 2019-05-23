@@ -1,5 +1,7 @@
 import React from 'react'
 import echarts from 'echarts'
+import moment from 'moment'
+import $ from 'jquery'
 
 
 export default class Chart extends React.Component {
@@ -9,17 +11,23 @@ export default class Chart extends React.Component {
   componentDidMount() {
     let myChart = echarts.init(document.getElementById('myChart'));
 
-    var base = +new Date(1968, 9, 3);
-    var oneDay = 24 * 3600 * 1000;
+    // var oneDay = 24 * 3600 * 1000;
+    var base = +new Date(2019, 4, 23);
+    var now = +new Date();
     var date = [];
 
-    var data = [Math.random() * 300];
+    while(base <= now) {
+      base = +new Date(base += 60 * 60 * 1000);
+      date.push(moment(base).format("YYYY-MM-DD HH"));
+    }
+    console.log(JSON.stringify(date));
 
-    for (var i = 1; i < 20000; i++) {
-      var now = new Date(base += oneDay);
-      date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+    var data = [Math.random() * 1000];
+
+    for (var i = 1; i < 200; i++) {
       data.push(Math.round((Math.random() - 0.5) * 20 + data[i - 1]));
     }
+
 
     let option = {
       tooltip: {
@@ -32,15 +40,15 @@ export default class Chart extends React.Component {
         left: 'center',
         text: '趋势分析',
       },
-      toolbox: {
-        feature: {
-          dataZoom: {
-            yAxisIndex: 'none'
-          },
-          restore: {},
-          saveAsImage: {}
-        }
-      },
+      // toolbox: {
+      //   feature: {
+      //     dataZoom: {
+      //       yAxisIndex: 'none'
+      //     },
+      //     restore: {},
+      //     saveAsImage: {}
+      //   }
+      // },
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -53,16 +61,53 @@ export default class Chart extends React.Component {
           min: 0,
           max: 1000,
           position: 'left',
+          offset: -50,
+          boundaryGap: [0, '100%']
+        },
+        {
+          type: 'value',
+          name: '测点2',
+          min: 0,
+          max: 200,
+          position: 'left',
+          offset: 0,
+          boundaryGap: [0, '100%']
+        },
+        {
+          type: 'value',
+          name: '单位3',
+          min: 0,
+          max: 1000,
+          position: 'left',
           offset: 50,
           boundaryGap: [0, '100%']
         },
         {
           type: 'value',
-          name: '单位2',
+          name: '单位4',
           min: 0,
           max: 1000,
           position: 'left',
-          // boundaryGap: [0, '100%']
+          offset: 100,
+          boundaryGap: [0, '100%']
+        },
+        {
+          type: 'value',
+          name: '单位1',
+          min: 0,
+          max: 1000,
+          position: 'right',
+          offset: -50,
+          boundaryGap: [0, '100%']
+        },
+        {
+          type: 'value',
+          name: '测点2',
+          min: 0,
+          max: 200,
+          position: 'right',
+          offset: 0,
+          boundaryGap: [0, '100%']
         },
         {
           type: 'value',
@@ -70,7 +115,8 @@ export default class Chart extends React.Component {
           min: 0,
           max: 1000,
           position: 'right',
-          // boundaryGap: [0, '100%']
+          offset: 50,
+          boundaryGap: [0, '100%']
         },
         {
           type: 'value',
@@ -78,11 +124,13 @@ export default class Chart extends React.Component {
           min: 0,
           max: 1000,
           position: 'right',
-          offset: 50
-          // boundaryGap: [0, '100%']
+          offset: 100,
+          boundaryGap: [0, '100%']
         },
-
       ],
+      legend: {
+        data:['Step Start', 'Step Middle', 'Step End']
+      },
       dataZoom: [{
         type: 'inside',
         start: 0,
@@ -101,25 +149,34 @@ export default class Chart extends React.Component {
         }
       }],
       series: [
+        // {
+        //   name:'测点1',
+        //   type:'line',
+        //   // smooth:true,
+        //   // symbol: 'none',
+        //   // sampling: 'average',
+        //   itemStyle: {
+        //     color: 'rgb(255, 70, 131)'
+        //   },
+        //   // areaStyle: {
+        //   //   color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+        //   //     offset: 0,
+        //   //     color: 'rgb(255, 158, 68)'
+        //   //   }, {
+        //   //     offset: 1,
+        //   //     color: 'rgb(255, 70, 131)'
+        //   //   }])
+        //   // },
+        //   data: data
+        // },
         {
-          name:'模拟数据',
+          name:'测点2',
           type:'line',
-          smooth:true,
-          symbol: 'none',
-          sampling: 'average',
+          yAxisIndex: 1,
           itemStyle: {
             color: 'rgb(255, 70, 131)'
           },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-              offset: 0,
-              color: 'rgb(255, 158, 68)'
-            }, {
-              offset: 1,
-              color: 'rgb(255, 70, 131)'
-            }])
-          },
-          data: data
+          data: [['2019-05-23 04', 100]]
         }
       ]
     };
