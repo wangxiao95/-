@@ -210,11 +210,17 @@ ul {
 .container {
   width: 100%;
   height: 100%;
+  background: linear-gradient(55deg, #054C8E, #052357, #04194E);
 }
 .operation-box {
   width: 30%;
   height: 65%;
   border: 1px solid #0874B5;
+  background: linear-gradient(135deg, #04194E, #052357, #054C8E);
+}
+.operation-box .title + div {
+  height: calc(100% - 40px);
+  overflow-y: scroll !important;
 }
 .operation-box .title {
   height: 40px;
@@ -222,6 +228,7 @@ ul {
   color: #ffffff;
   font-weight: 600;
   padding: 0 10px;
+  border-bottom: 1px solid #fff;
   background: linear-gradient(#052357, #3262A0);
 }
 .operation-box .title span {
@@ -251,6 +258,7 @@ ul {
   width: 70%;
   height: 65%;
   border: 1px solid #0874B5;
+  background: linear-gradient(45deg, #054C8E, #052357, #04194E);
 }
 .chart-box #myChart {
   width: 100%;
@@ -260,6 +268,12 @@ ul {
   width: 50%;
   height: 35%;
   border: 1px solid;
+}
+.fault-info .info-item {
+  color: #fff;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
 }
 .analysis {
   width: 50%;
@@ -277,4 +291,47 @@ body .ant-radio-wrapper .ant-radio {
 body .ant-radio-wrapper span.ant-radio + * {
   display: inline-block;
   width: calc(100% - 20px);
+}
+div.ant-tabs-bar {
+  margin: 0;
+}
+div.ant-tabs .ant-tabs-top-content {
+  height: calc(100% - 40px);
+}
+.ant-select {
+  color: #fff !important;
+}
+.ant-select .ant-select-selection {
+  border-color: #0874B5;
+  border-radius: 0;
+  background: #1D3F75;
+}
+.row-item .ant-select-arrow .ant-select-arrow-icon,
+.row-item .ant-calendar-picker-icon {
+  color: #fff;
+}
+.row-item .ant-input {
+  color: #fff;
+  border-radius: 0;
+  border-color: #0874B5;
+  background: #1D3F75;
+}
+.fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar,
+.analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar {
+  background: linear-gradient(#052357, #3262A0);
+}
+.fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active,
+.analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
+  color: #03D536 !important;
+  font-weight: 600;
+  border-color: #0874B5;
+  border-radius: 0;
+  background: #053771 !important;
+}
+.fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab,
+.analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+  color: #fff;
+  border-color: #0874B5;
+  border-radius: 0;
+  background: #054B8D;
 }

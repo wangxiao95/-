@@ -1,15 +1,20 @@
 import React from 'react'
-import {Radio, Select, DatePicker} from 'antd';
+import {DatePicker, Radio, Select} from 'antd';
+import moment from 'moment'
 import $ from "../scripts/jquery";
+import emitter from '../scripts/emitter'
 
 const Option = Select.Option
 const RadioGroup = Radio.Group;
 const {MonthPicker, RangePicker, WeekPicker} = DatePicker;
 
+let defaultRadioFlag = true; //第一次填写完之后默认选中,选中后不再执行默认选中
+
 export default class OperationSelect extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      selectRadio: undefined, //默认选中数据
       list: [
         {name: 'aa', dot: 'w'},
         {name: 'aa', dot: 'w'},
@@ -24,12 +29,17 @@ export default class OperationSelect extends React.Component {
         [], [], [], []
       ],
       result: [
-        {equipmentUuid: '', pointUuid: '', startTime: '', endTime: ''},
-        {equipmentUuid: '', pointUuid: '', startTime: '', endTime: ''},
-        {equipmentUuid: '', pointUuid: '', startTime: '', endTime: ''},
-        {equipmentUuid: '', pointUuid: '', startTime: '', endTime: ''},
+        {equipmentUuid: '', pointUuid: undefined, startTime: '', endTime: ''},
+        {equipmentUuid: '', pointUuid: undefined, startTime: '', endTime: ''},
+        {equipmentUuid: '', pointUuid: undefined, startTime: '', endTime: ''},
+        {equipmentUuid: '', pointUuid: undefined, startTime: '', endTime: ''},
       ],
-      selectData: [], //单选按钮已选择设备的报警信息
+      //单选按钮已选择信息
+      selectData: {
+        equipment: {},
+        point: {},
+        time: {}
+      },
     }
   }
 
@@ -42,7 +52,7 @@ export default class OperationSelect extends React.Component {
           <span className="min" onClick={this.subtract}>—</span>
         </div>
         <div style={{width: '100%', overflow: 'hidden'}}>
-          <RadioGroup style={{width: '100%'}} onChange={val => this.radioChange(val)}>
+          <RadioGroup style={{width: '100%'}} value={this.state.selectRadio} onChange={val => this.radioChange(val)}>
             {this.state.list.map((item, i) => {
               return <Radio key={i} value={i} style={{width: '100%', marginRight: 0}}>
                 <div className="radio-row">
@@ -54,23 +64,24 @@ export default class OperationSelect extends React.Component {
                               option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                             style={{width: 'calc(50% - 5px)'}}
-                            onChange={val => {
-                              this.handleChange(i, val)
+                            onChange={(val, option) => {
+                              this.handleChange(i, val, option)
                             }}>
                       {this.state.equipmentList.map((option, index) => {
                         return <Option key={index} value={option.equipmentUuid}>{option.equipmentName}</Option>
                       })}
                     </Select>
-                    <Select placeholder="请选择测点" style={{width: 'calc(50% - 5px)', marginLeft: 5}} onChange={val => {
-                      this.pointChange(i, val)
+                    <Select value={this.state.result[i].pointUuid} placeholder="请选择测点"
+                            style={{width: 'calc(50% - 5px)', marginLeft: 5}} onChange={(val, option) => {
+                      this.pointChange(i, val, option)
                     }}>
                       {this.state.pointList[i].map((option, index) => {
-                        return <Option key={index} value={option.pointUuid}>{option.pointName}</Option>
+                        return <Option key={index} option={option} value={option.pointUuid}>{option.pointName}</Option>
                       })}
                     </Select>
                   </div>
                   <div className="row-item">
-                    <RangePicker onChange={(date, str) => this.dateHandle(date, str, i)} style={{width: 'calc(100% - 5px)'}}
+                    <RangePicker defaultValue={[moment('2010-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss'), moment('2019-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss')]} onChange={(date, str) => this.dateHandle(date, str, i)} style={{width: 'calc(100% - 5px)'}}
                                  placeholder={['开始时间', '结束时间']}
                                  showTime/>
                   </div>
@@ -91,37 +102,58 @@ export default class OperationSelect extends React.Component {
 
   //单选按钮
   radioChange = val => {
-    console.log(val.target.value);
     let i = val.target.value;
-    $.ajax({url: $.baseURI(`equipment/${this.state.result[i].equipmentUuid}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/event`)})
-      .then(res => {
-        console.log(res.data);
-      })
-
+    this.setState({selectRadio: i})
+    emitter.emit('radioChange', this.state.result[i]);
   }
   //选择设备框变化
-  handleChange = (i, val) => {
+  handleChange = (i, val, option) => {
+    console.log(option);
     $.ajax({url: $.baseURI(`point/${val}/detail`)})
       .then(res => {
-        this.state.pointList[i] = res.data;
+        this.state.pointList[i] = res.data; //更新测点列表
+        this.state.result[i].pointUuid = undefined; //清空已选择测点
         this.state.result[i].equipmentUuid = val;
+        this.state.result[i].equipmentName = option.props.children;
         this.setState({})
       })
   }
   //pointChange选择测点
-  pointChange = (i, val) => {
+  pointChange = (i, val, option) => {
+    console.log(option);
     this.state.result[i].pointUuid = val;
+    this.state.result[i].unit = option.props.option.unit;
+    this.state.result[i].pointName = option.props.option.pointName;
+    console.log(this.state.result[i]);
+    if (this.state.result[i].startTime && this.state.result[i].endTime) {
+      // this.setState({ selectRadio: 0 })
+      if (defaultRadioFlag) {
+        this.radioChange({target: {value: i}})
+        defaultRadioFlag = false;
+      }
+      $.ajax({url: $.baseURI(`trend/${val}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/info`)})
+        .then(res => {
+          emitter.emit('itemChange', {data: res.data, index: i, result: this.state.result[i]});
+        })
+    }
     this.setState({})
-    $.ajax({url: $.baseURI(`trend/${val}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/info`)})
-      .then(res => {
 
-      })
   }
   //时间框变化
   dateHandle = (date, str, i) => {
     this.state.result[i].startTime = +date[0]._d;
     this.state.result[i].endTime = +date[1]._d;
-    this.setState({});
+    if (this.state.result[i].pointUuid) {
+      if (defaultRadioFlag) {
+        this.radioChange({target: {value: i}})
+        defaultRadioFlag = false;
+      }
+      $.ajax({url: $.baseURI(`trend/${this.state.result[i].pointUuid}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/info`)})
+        .then(res => {
+          emitter.emit('itemChange', {data: res.data, index: i, result: this.state.result[i]});
+        })
+    }
+    this.setState({})
   }
   //加号回调
   add = () => {
