@@ -220,7 +220,7 @@ ul {
 }
 .operation-box .title + div {
   height: calc(100% - 40px);
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
 }
 .operation-box .title {
   height: 40px;

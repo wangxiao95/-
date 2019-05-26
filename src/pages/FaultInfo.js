@@ -71,7 +71,7 @@ export default class FaultInfo extends React.Component {
   }
   //获取标注
   getRemarkData = data => {
-    $.ajax({url: $.baseURI(`remark/${data.equipmentUuid}`)})
+    $.ajax({url: $.baseURI(`remark?equipmentUuid=${data.equipmentUuid}`)})
       .then(res => {
         console.log(res.data);
         this.setState({
