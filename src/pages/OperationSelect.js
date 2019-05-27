@@ -5,8 +5,8 @@ import $ from "../scripts/jquery";
 import emitter from '../scripts/emitter'
 
 const Option = Select.Option
-const RadioGroup = Radio.Group;
-const {MonthPicker, RangePicker, WeekPicker} = DatePicker;
+// const RadioGroup = Radio.Group;
+const { RangePicker } = DatePicker;
 
 let defaultRadioFlag = true; //第一次填写完之后默认选中,选中后不再执行默认选中
 
@@ -52,7 +52,7 @@ export default class OperationSelect extends React.Component {
           <span className="min" onClick={this.subtract}>—</span>
         </div>
         <div style={{width: '100%', overflow: 'hidden'}}>
-          <RadioGroup style={{width: '100%'}} value={this.state.selectRadio} onChange={val => this.radioChange(val)}>
+          <Radio.Group style={{width: '100%'}} value={this.state.selectRadio} onChange={val => this.radioChange(val)}>
             {this.state.list.map((item, i) => {
               return <Radio key={i} value={i} style={{width: '100%', marginRight: 0}}>
                 <div className="radio-row">
@@ -89,7 +89,7 @@ export default class OperationSelect extends React.Component {
               </Radio>
             })
             }
-          </RadioGroup>
+          </Radio.Group>
         </div>
       </div>
     )
