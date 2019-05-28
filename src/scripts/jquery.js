@@ -1,11 +1,11 @@
 import $ from 'jquery'
 
 const config = {
-  online: 1,
+  online: process.env.NODE_ENV === 'development' ? 1 : 2,
 }
 
 $.baseURI = function (url) {
-  return (config.online === 1 ? 'http://bhxz.net:18007/' : '') + url;
+  return (config.online === 1 ? 'http://bhxz.net:18007/' : '/') + url;
 }
 
 $.ajaxSetup({

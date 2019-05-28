@@ -3,7 +3,7 @@ import echarts from 'echarts'
 import emitter from "../scripts/emitter";
 
 
-const colors = ['#FF0000', '#03d536', '#ff00fa', '#FFFA00', '#D57103', '#8600FF', '#00FAFF', 'C0FF00']
+const colors = ['#FF0000', '#03d536', '#ff00fa', '#FFFA00', '#D57103', '#8600FF', '#00FAFF', '#C0FF00']
 
 export default class Chart extends React.Component {
   constructor(props) {
@@ -11,24 +11,32 @@ export default class Chart extends React.Component {
     this.state = {
       //渲染数据
       source: [
-        [{
+        {
           name: '',
           type: 'line',
-          data: [123, 45]
-        }]
+          data: []
+        }
       ],
       //各个设备的时间轴
       xList: [
         []
       ],
-      xAxis: ['2000', '2019'],
+      xAxis: [1970, 2019],
       yAxis: [{
-        type: 'value'
+        type: 'value',
+        textStyle: {
+          color: '#fff'
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#fff'
+          }
+        },
       }],
     }
   }
   componentDidMount() {
-    // this.initChart();
+    this.initChart();
     emitter.addListener('itemChange', data => {
       this.getData(data)
     });
@@ -134,7 +142,7 @@ export default class Chart extends React.Component {
         top: '20%',
         left: this.getOffsetLeft(),
         // right: '10%'
-        // right: this.getOffsetRight()
+        right: this.getOffsetRight()
       },
       title: {
         left: 'center',
@@ -203,12 +211,16 @@ export default class Chart extends React.Component {
     let len = this.state.yAxis.length;
     // if (len > 4) return '20%';
     switch (len) {
+      case 1:
+        return '40';
+      case 2:
+        return '80';
       case 3:
         return '120';
       case 4:
         return '160';
       default:
-        return '10%';
+        return '160';
 
     }
   }
@@ -216,14 +228,16 @@ export default class Chart extends React.Component {
     let len = this.state.yAxis.length;
     if (len > 8) return '20%';
     switch (len) {
-      // case 6:
-      //   return '240';
+      case 5:
+        return '40';
+      case 6:
+        return '80';
       case 7:
-        return '280';
+        return '120';
       case 8:
-        return '320';
+        return '160';
       default:
-        return '10%';
+        return '5%';
 
     }
   }

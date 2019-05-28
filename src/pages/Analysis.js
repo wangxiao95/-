@@ -21,8 +21,9 @@ export default class Analysis extends React.Component {
           <div className="title">{this.state.equipmentName + '趋势信息'}</div>
           <div className="date-box">
             <DatePicker.RangePicker
-              defaultValue={[moment('2010-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss'), moment('2019-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss')]}
+              defaultValue={[moment(new Date(+new Date() - 30 * 24 * 3600 * 1000), 'YYYY-MM-DD HH:mm:ss'), moment(new Date(), 'YYYY-MM-DD HH:mm:ss')]}
               onChange={(date, str) => this.dateHandle(date, str)} style={{width: 'calc(100% - 5px)'}}
+              // value={[this.state.data.startTime, this.state.data.endTime]}
               placeholder={['开始时间', '结束时间']}
               showTime/>
           </div>
@@ -37,9 +38,12 @@ export default class Analysis extends React.Component {
   componentDidMount() {
     // this.initChart();
     emitter.on('radioChange', data => {
-      this.state.data = data;
+      this.state.data = Object.assign(data, {
+        startTime: +new Date() - 30 * 24 * 3600 * 1000,
+        endTime: +new Date()
+      });
       this.setState({
-          equipmentName: data.equipmentName || '设备',
+        equipmentName: data.equipmentName || '设备',
       })
       this.getData();
     })
@@ -72,7 +76,7 @@ export default class Analysis extends React.Component {
       startTime: +date[0]._d,
       endTime: +date[1]._d
     });
-    if(this.state.equipmentName !== '设备') {
+    if (this.state.equipmentName !== '设备') {
       this.getData();
     }
   }
