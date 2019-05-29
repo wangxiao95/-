@@ -1,12 +1,12 @@
 import React from 'react'
-import {DatePicker, Radio, Select} from 'antd';
+import {DatePicker, Radio, Select, Tooltip} from 'antd';
 import moment from 'moment'
 import $ from "../scripts/jquery";
 import emitter from '../scripts/emitter'
 
 const Option = Select.Option
 // const RadioGroup = Radio.Group;
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
 
 let defaultRadioFlag = true; //第一次填写完之后默认选中,选中后不再执行默认选中
 
@@ -61,29 +61,43 @@ export default class OperationSelect extends React.Component {
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
-                              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                              option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                             style={{width: 'calc(50% - 5px)'}}
                             onChange={(val, option) => {
                               this.handleChange(i, val, option)
                             }}>
                       {this.state.equipmentList.map((option, index) => {
-                        return <Option key={index} value={option.equipmentUuid}>{option.equipmentName}</Option>
+                        return <Option key={index} value={option.equipmentUuid}>
+                          <Tooltip placement="rightBottom" title={option.equipmentName}
+                                   arrowPointAtCenter>{option.equipmentName}</Tooltip>
+                        </Option>
                       })}
                     </Select>
                     <Select value={this.state.result[i].pointUuid} placeholder="请选择测点"
-                            style={{width: 'calc(50% - 5px)', marginLeft: 5}} onChange={(val, option) => {
-                      this.pointChange(i, val, option)
-                    }}>
+                            showSearch
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                            style={{width: 'calc(50% - 5px)', marginLeft: 5}}
+                            onChange={(val, option) => {
+                              this.pointChange(i, val, option)
+                            }}>
                       {this.state.pointList[i].map((option, index) => {
-                        return <Option key={index} option={option} value={option.pointUuid}>{option.pointName}</Option>
+                        return <Option key={index} option={option} value={option.pointUuid}>
+                          <Tooltip placement="rightBottom" title={option.pointName}
+                                   arrowPointAtCenter>{option.pointName}</Tooltip>
+                        </Option>
                       })}
                     </Select>
                   </div>
                   <div className="row-item">
-                    <RangePicker defaultValue={[moment('2010-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss'), moment('2019-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss')]} onChange={(date, str) => this.dateHandle(date, str, i)} style={{width: 'calc(100% - 5px)'}}
-                                 placeholder={['开始时间', '结束时间']}
-                                 showTime/>
+                    <RangePicker
+                      // defaultValue={[moment('2010-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss'), moment('2019-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss')]}
+                      onChange={(date, str) => this.dateHandle(date, str, i)} style={{width: 'calc(100% - 5px)'}}
+                      placeholder={['开始时间', '结束时间']}
+                      showTime/>
                   </div>
                 </div>
               </Radio>
@@ -114,7 +128,7 @@ export default class OperationSelect extends React.Component {
         this.state.pointList[i] = res.data; //更新测点列表
         this.state.result[i].pointUuid = undefined; //清空已选择测点
         this.state.result[i].equipmentUuid = val;
-        this.state.result[i].equipmentName = option.props.children;
+        this.state.result[i].equipmentName = option.props.children.props.children;
         this.setState({})
       })
   }
@@ -148,7 +162,7 @@ export default class OperationSelect extends React.Component {
         this.radioChange({target: {value: i}})
         defaultRadioFlag = false;
       }
-      $.ajax({url: $.baseURI(`trend/${this.state.result[i].pointUuid}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/info`)})
+      $.ajax({url: $.baseURI(`trend/${this.state.result[i].pointUuid}/${+date[0]._d}/${+date[1]._d}/info`)})
         .then(res => {
           emitter.emit('itemChange', {data: res.data, index: i, result: this.state.result[i]});
         })

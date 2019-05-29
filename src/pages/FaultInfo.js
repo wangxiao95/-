@@ -57,6 +57,13 @@ export default class FaultInfo extends React.Component {
       this.getFaultData(data)
       this.getRemarkData(data)
     })
+    emitter.addListener('itemChange', data => {
+      this.setState({
+        equipmentName: data.result.equipmentName || '设备'
+      })
+      this.getFaultData(data.result)
+      this.getRemarkData(data.result)
+    })
   }
 
   getFaultData = (data) => {

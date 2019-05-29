@@ -36,14 +36,25 @@ export default class Analysis extends React.Component {
   }
 
   componentDidMount() {
+    console.log(emitter);
     // this.initChart();
-    emitter.on('radioChange', data => {
+    emitter.addListener('radioChange', data => {
       this.state.data = Object.assign(data, {
         startTime: +new Date() - 30 * 24 * 3600 * 1000,
         endTime: +new Date()
       });
       this.setState({
         equipmentName: data.equipmentName || '设备',
+      })
+      this.getData();
+    })
+    emitter.addListener('itemChange', data => {
+      this.state.data = Object.assign(this.state.data, data, {
+        // startTime: +new Date() - 30 * 24 * 3600 * 1000,
+        // endTime: +new Date()
+      });
+      this.setState({
+        equipmentName: data.result.equipmentName || '设备',
       })
       this.getData();
     })
@@ -87,6 +98,7 @@ export default class Analysis extends React.Component {
 
     let option = {
       tooltip: {
+        confine: true,
         trigger: 'axis',
         position: function (pt) {
           return [pt[0], '10%'];
