@@ -5,7 +5,7 @@ const config = {
 }
 
 $.baseURI = function (url) {
-  return (config.online === 1 ? 'http://bhxz.net:18007/' : 'http://bhxz.net:18007/') + url;
+  return (config.online === 1 ? 'http://bhxz.net:18007/' : '/') + url;
 }
 
 $.ajaxSetup({
