@@ -1,5 +1,5 @@
 import React from 'react'
-import {DatePicker, Radio, Select, Tooltip} from 'antd';
+import {DatePicker, Radio, Select, Tooltip, message} from 'antd';
 import moment from 'moment'
 import $ from "../scripts/jquery";
 import emitter from '../scripts/emitter'
@@ -97,6 +97,7 @@ export default class OperationSelect extends React.Component {
                       // defaultValue={[moment('2010-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss'), moment('2019-01-01 10:09:21', 'YYYY-MM-DD HH:mm:ss')]}
                       onChange={(date, str) => this.dateHandle(date, str, i)} style={{width: 'calc(100% - 5px)'}}
                       placeholder={['开始时间', '结束时间']}
+                      allowClear={false}
                       showTime/>
                   </div>
                 </div>
@@ -147,7 +148,11 @@ export default class OperationSelect extends React.Component {
       }
       $.ajax({url: $.baseURI(`trend/${val}/${this.state.result[i].startTime}/${this.state.result[i].endTime}/info`)})
         .then(res => {
+          if(!res.data.trendInfo || !res.data.trendInfo.length) {
+            message.error('无数据')
+          }
           emitter.emit('itemChange', {data: res.data, index: i, result: this.state.result[i]});
+          emitter.emit('radioChange', this.state.result[i]);
         })
     }
     this.setState({})
@@ -155,16 +160,22 @@ export default class OperationSelect extends React.Component {
   }
   //时间框变化
   dateHandle = (date, str, i) => {
-    this.state.result[i].startTime = +date[0]._d;
-    this.state.result[i].endTime = +date[1]._d;
+    let start = +new Date(str[0]);
+    let end = +new Date(str[1]);
+    this.state.result[i].startTime = start;
+    this.state.result[i].endTime = end;
     if (this.state.result[i].pointUuid) {
       if (defaultRadioFlag) {
         this.radioChange({target: {value: i}})
         defaultRadioFlag = false;
       }
-      $.ajax({url: $.baseURI(`trend/${this.state.result[i].pointUuid}/${+date[0]._d}/${+date[1]._d}/info`)})
+      $.ajax({url: $.baseURI(`trend/${this.state.result[i].pointUuid}/${start}/${end}/info`)})
         .then(res => {
+          if(!res.data.trendInfo || !res.data.trendInfo.length) {
+            message.error('无数据')
+          }
           emitter.emit('itemChange', {data: res.data, index: i, result: this.state.result[i]});
+          emitter.emit('radioChange', this.state.result[i]);
         })
     }
     this.setState({})

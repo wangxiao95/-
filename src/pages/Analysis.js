@@ -10,7 +10,10 @@ export default class Analysis extends React.Component {
     super(props)
     this.state = {
       equipmentName: '设备',
-      data: {}
+      data: {
+        startTime: new Date(+new Date() - 30 * 24 * 3600 * 1000),
+        endTime: new Date()
+      }
     }
   }
 
@@ -21,10 +24,12 @@ export default class Analysis extends React.Component {
           <div className="title">{this.state.equipmentName + '趋势信息'}</div>
           <div className="date-box">
             <DatePicker.RangePicker
-              defaultValue={[moment(new Date(+new Date() - 30 * 24 * 3600 * 1000), 'YYYY-MM-DD HH:mm:ss'), moment(new Date(), 'YYYY-MM-DD HH:mm:ss')]}
+              ref="datePicker"
+              // defaultValue={[moment(new Date(+new Date() - 30 * 24 * 3600 * 1000), 'YYYY-MM-DD HH:mm:ss'), moment(new Date(), 'YYYY-MM-DD HH:mm:ss')]}
               onChange={(date, str) => this.dateHandle(date, str)} style={{width: 'calc(100% - 5px)'}}
-              // value={[this.state.data.startTime, this.state.data.endTime]}
+              value={[moment(this.state.data.startTime, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.data.endTime, 'YYYY-MM-DD HH:mm:ss')]}
               placeholder={['开始时间', '结束时间']}
+              allowClear={false}
               showTime/>
           </div>
         </div>
@@ -36,28 +41,28 @@ export default class Analysis extends React.Component {
   }
 
   componentDidMount() {
-    console.log(emitter);
     // this.initChart();
+
     emitter.addListener('radioChange', data => {
-      this.state.data = Object.assign(data, {
-        startTime: +new Date() - 30 * 24 * 3600 * 1000,
-        endTime: +new Date()
+      this.state.data = Object.assign({}, data, {
+        startTime: new Date(+new Date() - 30 * 24 * 3600 * 1000),
+        endTime: new Date()
       });
       this.setState({
         equipmentName: data.equipmentName || '设备',
       })
       this.getData();
     })
-    emitter.addListener('itemChange', data => {
-      this.state.data = Object.assign(this.state.data, data, {
-        // startTime: +new Date() - 30 * 24 * 3600 * 1000,
-        // endTime: +new Date()
-      });
-      this.setState({
-        equipmentName: data.result.equipmentName || '设备',
-      })
-      this.getData();
-    })
+    // emitter.addListener('itemChange', data => {
+    //   this.state.data = Object.assign({}, data.result, {
+    //     startTime: new Date(+new Date() - 30 * 24 * 3600 * 1000),
+    //     endTime: new Date()
+    //   });
+    //   this.setState({
+    //     equipmentName: data.result.equipmentName || '设备',
+    //   })
+    //   this.getData();
+    // })
   }
 
   //获取设备导入时间equipment/{equipmentUuid}/info
@@ -71,7 +76,7 @@ export default class Analysis extends React.Component {
   //获取数据
   getData = () => {
     console.log(this.state);
-    $.ajax({url: $.baseURI(`trend/${this.state.data.pointUuid}/${this.state.data.startTime}/${this.state.data.endTime}/info`)})
+    $.ajax({url: $.baseURI(`trend/${this.state.data.pointUuid}/${+this.state.data.startTime}/${+this.state.data.endTime}/info`)})
       .then(res => {
         let [xAxis, arr] = [[], []];
         res.data.trendInfo.map(item => {
@@ -83,13 +88,15 @@ export default class Analysis extends React.Component {
   }
 
   dateHandle = (date, str) => {
-    this.state.data = Object.assign(this.state.data, {
-      startTime: +date[0]._d,
-      endTime: +date[1]._d
-    });
+    this.state.data = Object.assign({}, this.state.data, {
+      startTime: date[0],
+      endTime: date[1]
+    })
+    this.setState({})
     if (this.state.equipmentName !== '设备') {
       this.getData();
     }
+
   }
   //初始化chart
   initChart = (xAxis, arr, data) => {
