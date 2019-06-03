@@ -160,10 +160,11 @@ export default class OperationSelect extends React.Component {
   }
   //时间框变化
   dateHandle = (date, str, i) => {
-    let start = new Date(str[0]).getTime();
-    let end = new Date(str[1]).getTime();
+    let start = new Date(date[0]).getTime();
+    let end = new Date(date[1]).getTime();
     this.state.result[i].startTime = start;
     this.state.result[i].endTime = end;
+
     if (this.state.result[i].pointUuid) {
       if (defaultRadioFlag) {
         this.radioChange({target: {value: i}})
