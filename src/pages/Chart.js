@@ -133,6 +133,7 @@ export default class Chart extends React.Component {
 
     let option = {
       tooltip: {
+        confine: true,
         trigger: 'axis',
         position: function (pt) {
           return [pt[0], '10%'];
