@@ -8,6 +8,7 @@ const TabPane = Tabs.TabPane;
 export default class FaultInfo extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       equipmentName: '设备',
       faultData: [
@@ -38,7 +39,7 @@ export default class FaultInfo extends React.Component {
                 <span>报警原因为{item.alarmInfo}</span>
               </div>
             }) : <div
-              style={{height: '40px', width: '100%', lineHeight: '40px', textAlign: 'center', color: '#fff'}}>无数据</div>}
+              style={{height: '40px', width: '100%', lineHeight: '40px', textAlign: 'center', color: '#32363c'}}>无数据</div>}
           </TabPane>
           <TabPane tab={this.state.equipmentName + '标注信息'} key="2">
             {this.state.remarkData.length ? this.state.remarkData.map((item, i) => {
@@ -48,7 +49,7 @@ export default class FaultInfo extends React.Component {
                 <span>标注内容为{item.remarkInfo}</span>，
               </div>
             }) : <div
-              style={{height: '40px', width: '100%', lineHeight: '40px', textAlign: 'center', color: '#fff'}}>无数据</div>}
+              style={{height: '40px', width: '100%', lineHeight: '40px', textAlign: 'center', color: '#32363c'}}>无数据</div>}
           </TabPane>
         </Tabs>
       </div>
@@ -56,6 +57,23 @@ export default class FaultInfo extends React.Component {
   }
 
   componentDidMount() {
+    // let arr = [], arr1 = [];
+    // let i
+    // for(i = 0; i<30;i++){
+    //   arr.push( {
+    //     alarmStartTime: '2019-09-19',
+    //     alarmEndTime: '2019-10-19',
+    //     alarmInfo: '原因',
+    //     alarmLevel: i,
+    //     value: 'dsfdsf'
+    //   })
+    //   arr1.push({startTime: '2019-09-19', endTime: '2019-10-19', remarkInfo: '标注内容', remarkUuid: i})
+    // }
+    // console.log(arr);
+    // this.setState({
+    //   faultData: arr,
+    //   remarkData: arr1
+    // })
     emitter.on('radioChange', data => {
       this.setState({
         equipmentName: data.equipmentName || '设备'
@@ -64,11 +82,13 @@ export default class FaultInfo extends React.Component {
       this.getRemarkData(data)
     })
     emitter.addListener('itemChange', data => {
-      this.setState({
-        equipmentName: data.result.equipmentName || '设备'
-      })
-      this.getFaultData(data.result)
-      this.getRemarkData(data.result)
+      if (this.state.equipmentName === '设备' || this.state.equipmentName === data.result.equipmentName) {
+        this.setState({
+          equipmentName: data.result.equipmentName || '设备'
+        })
+        this.getFaultData(data.result)
+        this.getRemarkData(data.result)
+      }
     })
   }
 

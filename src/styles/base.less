@@ -9,14 +9,16 @@
 .container {
   width: 100%;
   height: 100%;
-  background: linear-gradient(55deg, #054C8E, #052357, #04194E);
+  //background: linear-gradient(55deg, #054C8E, #052357, #04194E);
+  background: #e2dfde;
 }
 
 .operation-box {
   width: 30%;
   height: 65%;
-  border: 1px solid #0874B5;
-  background: linear-gradient(135deg, #04194E, #052357, #054C8E);
+  border: 1px solid #252b30;
+  //background: linear-gradient(135deg, #04194E, #052357, #054C8E);
+  background: #e2dfde;
   .title + div {
     height: calc(100% - 40px);
     overflow-y: auto !important;
@@ -27,8 +29,9 @@
     color: #ffffff;
     font-weight: 600;
     padding: 0 10px;
-    border-bottom: 1px solid #fff;
-    background: linear-gradient(#052357, #3262A0);
+    border-bottom: 1px solid #e2dfde;
+    background: #252b30;
+    //background: linear-gradient(#052357, #3262A0);
     span {
       display: inline-block;
       height: 40px;
@@ -57,8 +60,9 @@
 .chart-box {
   width: 70%;
   height: 65%;
-  border: 1px solid #0874B5;
-  background: linear-gradient(45deg, #054C8E, #052357, #04194E);
+  border: 1px solid #252b30;
+  //background: linear-gradient(45deg, #054C8E, #052357, #04194E);
+  background: #fff;
   #myChart{
     width: 100%;
     height: 100%;
@@ -68,7 +72,7 @@
 .fault-info {
   width: 50%;
   height: 35%;
-  border: 1px solid;
+  border: 1px solid #252b30;
   .info-item {
     color: #fff;
     height: 30px;
@@ -80,21 +84,22 @@
 .analysis {
   width: 50%;
   height: 35%;
-  border: 1px solid #0874B5;
+  border: 1px solid #252b30;
   .head{
     width: 100%;
     height: 40px;
     color: #fff;
     line-height: 40px;
     border-bottom: 1px solid #fff;
-    background: linear-gradient(#052357, #3262A0);
+    //background: linear-gradient(#052357, #3262A0);
+    background: #252b30;
     .title{
       display: inline-block;
       //width: 30%;
       min-width: 30%;
       height: 40px;
-      color: #03D536;
-      font-weight: 600;
+      //color: #03D536;
+      //font-weight: 600;
       line-height: 40px;
       padding: 0 15px;
     }
@@ -133,44 +138,50 @@ div.ant-tabs-bar {
 
 div.ant-tabs .ant-tabs-top-content {
   height: calc(100% - 40px);
+  overflow-y: auto;
+  .info-item{
+    color: #32363c;
+  }
 }
 
 .ant-select {
-  color: #fff !important;
+  color: #32363c !important;
   .ant-select-selection {
-    border-color: #0874B5;
+    border-color: #32363c;
     border-radius: 0;
-    background: #1D3F75;
+    background: #FFFFFF;
   }
 }
 
 body {
   .ant-select-arrow .ant-select-arrow-icon, .ant-calendar-picker-icon {
-    color: #fff;
+    color: #32363c;
   }
   .ant-input {
-    color: #fff;
+    color: #32363c;
     border-radius: 0;
-    border-color: #0874B5;
-    background: #1D3F75;
+    border-color: #32363c;
+    background: #FFFFFF;
   }
 }
 
 .fault-info, .analysis {
   .ant-tabs.ant-tabs-card .ant-tabs-card-bar {
-    background: linear-gradient(#052357, #3262A0);
+    //background: linear-gradient(#052357, #3262A0);
+    background: #252b30;
+    overflow: hidden;
     .ant-tabs-tab-active {
-      color: #03D536 !important;
-      font-weight: 600;
-      border-color: #0874B5;
+      //color: #03D536 !important;
+      //font-weight: 600;
+      border-color: #252b30;
       border-radius: 0;
-      background: #053771 !important;
+      background: #337ab7 !important;
     }
     .ant-tabs-tab {
       color: #fff;
-      border-color: #0874B5;
+      border-color: #252b30;
       border-radius: 0;
-      background: #054B8D;
+      background: #252b30;
     }
   }
 }

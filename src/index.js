@@ -12,6 +12,9 @@ import 'moment/locale/zh-cn';
 import 'antd/dist/antd.css';
 import { LocaleProvider } from 'antd'
 
+import 'classlist-polyfill'
+import 'react-app-polyfill/ie9'
+
 
 moment.locale('zh-cn');
 

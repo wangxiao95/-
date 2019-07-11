@@ -80,7 +80,7 @@ export default class Analysis extends React.Component {
       .then(res => {
         let [xAxis, arr] = [[], []];
         res.data.trendInfo.map(item => {
-          xAxis.push(item.trendTime)
+          xAxis.push(moment(item.trendTime).format('YYYY-MM-DD HH:mm:ss'))
           arr.push(item.trendValue.all);
         })
         this.initChart(xAxis, arr, this.state.data);
@@ -112,18 +112,18 @@ export default class Analysis extends React.Component {
         }
       },
       textStyle: {
-        color: "#fff",
+        color: "#32363c",
       },
       lineStyle: {
         color: "#FF0000",
       },
       xAxis: {
         lineStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         axisLine: {
           lineStyle: {
-            color: "#fff"
+            color: "#32363c"
           }
         },
         // type: 'value',
@@ -131,11 +131,11 @@ export default class Analysis extends React.Component {
       },
       yAxis: {
         textStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#32363c'
           }
         },
         name: data.unit,
