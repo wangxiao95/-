@@ -73,8 +73,10 @@ export default class FaultInfo extends React.Component {
   }
 
   getFaultData = (data) => {
+    let startTime = new Date(`${new Date().getFullYear() - 20}-${new Date().getMonth()}-${new Date().getDay()}`).getTime()
+    let endTime = new Date().getTime()
     //设备历史报警事件记录
-    $.ajax({url: $.baseURI(`equipment/${data.equipmentUuid}/${data.startTime}/${data.endTime}/event`)})
+    $.ajax({url: $.baseURI(`equipment/${data.equipmentUuid}/${startTime}/${endTime}/event`)})
       .then(res => {
         console.log(res.data);
         this.setState({
