@@ -270,6 +270,7 @@ ul {
   width: 50%;
   height: 35%;
   border: 1px solid #252b30;
+  background: #fff;
 }
 .fault-info .info-item {
   color: #fff;
@@ -281,6 +282,7 @@ ul {
   width: 50%;
   height: 35%;
   border: 1px solid #252b30;
+  background: #fff;
 }
 .analysis .head {
   width: 100%;
