@@ -212,13 +212,13 @@ ul {
 .container {
   width: 100%;
   height: 100%;
-  background: linear-gradient(55deg, #054C8E, #052357, #04194E);
+  background: #e2dfde;
 }
 .operation-box {
   width: 30%;
   height: 65%;
-  border: 1px solid #0874B5;
-  background: linear-gradient(135deg, #04194E, #052357, #054C8E);
+  border: 1px solid #252b30;
+  background: #e2dfde;
 }
 .operation-box .title + div {
   height: calc(100% - 40px);
@@ -230,8 +230,8 @@ ul {
   color: #ffffff;
   font-weight: 600;
   padding: 0 10px;
-  border-bottom: 1px solid #fff;
-  background: linear-gradient(#052357, #3262A0);
+  border-bottom: 1px solid #e2dfde;
+  background: #252b30;
 }
 .operation-box .title span {
   display: inline-block;
@@ -259,8 +259,8 @@ ul {
 .chart-box {
   width: 70%;
   height: 65%;
-  border: 1px solid #0874B5;
-  background: linear-gradient(45deg, #054C8E, #052357, #04194E);
+  border: 1px solid #252b30;
+  background: #fff;
 }
 .chart-box #myChart {
   width: 100%;
@@ -269,7 +269,8 @@ ul {
 .fault-info {
   width: 50%;
   height: 35%;
-  border: 1px solid;
+  border: 1px solid #252b30;
+  background: #fff;
 }
 .fault-info .info-item {
   color: #fff;
@@ -280,7 +281,8 @@ ul {
 .analysis {
   width: 50%;
   height: 35%;
-  border: 1px solid #0874B5;
+  border: 1px solid #252b30;
+  background: #fff;
 }
 .analysis .head {
   width: 100%;
@@ -288,14 +290,12 @@ ul {
   color: #fff;
   line-height: 40px;
   border-bottom: 1px solid #fff;
-  background: linear-gradient(#052357, #3262A0);
+  background: #252b30;
 }
 .analysis .head .title {
   display: inline-block;
   min-width: 30%;
   height: 40px;
-  color: #03D536;
-  font-weight: 600;
   line-height: 40px;
   padding: 0 15px;
 }
@@ -327,41 +327,44 @@ div.ant-tabs-bar {
 }
 div.ant-tabs .ant-tabs-top-content {
   height: calc(100% - 40px);
+  overflow-y: auto;
+}
+div.ant-tabs .ant-tabs-top-content .info-item {
+  color: #32363c;
 }
 .ant-select {
-  color: #fff !important;
+  color: #32363c !important;
 }
 .ant-select .ant-select-selection {
-  border-color: #0874B5;
+  border-color: #32363c;
   border-radius: 0;
-  background: #1D3F75;
+  background: #FFFFFF;
 }
 body .ant-select-arrow .ant-select-arrow-icon,
 body .ant-calendar-picker-icon {
-  color: #fff;
+  color: #32363c;
 }
 body .ant-input {
-  color: #fff;
+  color: #32363c;
   border-radius: 0;
-  border-color: #0874B5;
-  background: #1D3F75;
+  border-color: #32363c;
+  background: #FFFFFF;
 }
 .fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar,
 .analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar {
-  background: linear-gradient(#052357, #3262A0);
+  background: #252b30;
+  overflow: hidden;
 }
 .fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active,
 .analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
-  color: #03D536 !important;
-  font-weight: 600;
-  border-color: #0874B5;
+  border-color: #252b30;
   border-radius: 0;
-  background: #053771 !important;
+  background: #337ab7 !important;
 }
 .fault-info .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab,
 .analysis .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
   color: #fff;
-  border-color: #0874B5;
+  border-color: #252b30;
   border-radius: 0;
-  background: #054B8D;
+  background: #252b30;
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import echarts from 'echarts'
 import emitter from "../scripts/emitter";
+import moment from "moment";
 
 
 const colors = ['#FF0000', '#03d536', '#ff00fa', '#FFFA00', '#D57103', '#8600FF', '#00FAFF', '#C0FF00']
@@ -25,11 +26,11 @@ export default class Chart extends React.Component {
       yAxis: [{
         type: 'value',
         textStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#32363c'
           }
         },
       }],
@@ -69,11 +70,11 @@ export default class Chart extends React.Component {
         type: 'value',
         name: data.result.unit,
         textStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         axisLine: {
           lineStyle: {
-            color: '#fff'
+            color: '#32363c'
           }
         },
         // min: 0,
@@ -85,7 +86,7 @@ export default class Chart extends React.Component {
     }
 
     data.data.trendInfo.map(item => {
-      this.state.xList[index].push(item.trendTime);
+      this.state.xList[index].push(moment(item.trendTime).format('YYYY-MM-DD HH:mm:ss'));
       arr.push(item.trendValue.all);
       this.state.source[index] = {
         name: data.result.equipmentName + '(' + data.result.pointName + ')',
@@ -149,23 +150,23 @@ export default class Chart extends React.Component {
         left: 'center',
         text: '趋势分析',
         textStyle: {
-          color: "#fff",
+          color: "#32363c",
           // fontSize: 14,
         }
       },
       textStyle: {
-        color: "#fff",
+        color: "#32363c",
       },
       lineStyle: {
-        color: "#fff",
+        color: "#32363c",
       },
       xAxis: {
         lineStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         axisLine: {
           lineStyle: {
-            color: "#fff"
+            color: "#32363c"
           }
         },
         // type: 'category',
@@ -175,7 +176,7 @@ export default class Chart extends React.Component {
       yAxis: this.state.yAxis,
       legend: {
         textStyle: {
-          color: "#fff",
+          color: "#32363c",
         },
         left: 0,
         top: 30,
@@ -193,12 +194,12 @@ export default class Chart extends React.Component {
         handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
         handleSize: '80%',
         textStyle: {
-          color: '#fff'
+          color: '#32363c'
         },
         handleStyle: {
-          color: '#fff',
+          color: '#32363c',
           shadowBlur: 3,
-          shadowColor: 'rgba(0, 0, 0, 0.6)',
+          shadowColor: '#32363c',
           shadowOffsetX: 2,
           shadowOffsetY: 2
         }
