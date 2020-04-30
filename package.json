@@ -6,7 +6,7 @@
     "antd": "^3.18.2",
     "classlist-polyfill": "^1.2.0",
     "echarts": "^4.2.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
